@@ -3,6 +3,8 @@ require("dotenv").config();
 const EMAIL = process.env.EMAIL || "option1";
 
 const create = (from, to, subject, body_text, body_html) => {
+  // this is just to simulate different email services, as different
+  // params can be set per service
   if (EMAIL === "option1") {
     return {
       from,
@@ -26,4 +28,4 @@ const create = (from, to, subject, body_text, body_html) => {
   }
 };
 
-exports.create = create;
+module.exports.create = create;
