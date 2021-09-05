@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const { query, validationResult } = require("express-validator");
-const emailSrvc = require("../emailSrvc");
 const Email = require("../models/email");
+const emailSrvc = require("../emailSrvc");
 
 // root: /send-email
 router.post(
@@ -19,7 +19,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    // check if email is blacklisted
+    // check if to-email is blacklisted
     const emailsInDB = await Email.findOne({ email: req.query.to });
     if (emailsInDB !== null) {
       return res.status(406).json({ error: "Recipient email is blacklisted." });
@@ -34,11 +34,11 @@ router.post(
     );
 
     if (emailToSend === null) {
-      return res.status(503).json({ error: "Email service unavailable." });
+      return res.status(503).json({ error: "Email service is unavailable." });
     }
 
     res.status(201).json({
-      message: `Success! Your email has been sent using the ${emailToSend.email_service}'s service!`,
+      message: `Success! Your email has been sent using ${emailToSend.email_service}'s service!`,
     });
   }
 );
